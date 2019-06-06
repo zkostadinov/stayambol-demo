@@ -58,13 +58,13 @@ function MyUpdateFunction() {
 
 function setLocationToServer() {
 	var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'http://127.0.0.1:8080/gameserver');
+    xhr.open('POST', 'http://192.168.43.24:8080/gameserver');
     xhr.send(ball.x + '/' + ball.y);
 }
 
 function readBallLocation() {
 	var xhr = new XMLHttpRequest();
-	xhr.open('GET', 'http://127.0.0.1:8080/gameserver');
+	xhr.open('GET', 'http://192.168.43.24:8080/gameserver');
 	xhr.onreadystatechange = function(p) {
 		if(xhr.readyState === 4 && xhr.status === 200) {
 
