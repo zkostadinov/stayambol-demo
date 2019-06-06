@@ -28,6 +28,9 @@ function MyCreateFunction() {
 
 	ball = game.add.sprite(10, 10, "ball");
 	cursors = game.input.keyboard.createCursorKeys();
+	
+	// game.time.events.repeat(Phaser.Timer.SECOND, 10000000, readBallLocation, this);
+	readBallLocation();
 }
 
 
@@ -55,6 +58,29 @@ function MyUpdateFunction() {
 
 function setLocationToServer() {
 	var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'http://192.168.0.101:8000/gameserver');
-    xhr.send(ball.x + '/ ' + ball.y);
+    xhr.open('POST', 'http://127.0.0.1:8080/gameserver');
+    xhr.send(ball.x + '/' + ball.y);
+}
+
+function readBallLocation() {
+	var xhr = new XMLHttpRequest();
+	xhr.open('GET', 'http://127.0.0.1:8080/gameserver');
+	xhr.onreadystatechange = function(p) {
+		if(xhr.readyState === 4 && xhr.status === 200) {
+
+			if (cursors.right.isDown || cursors.left.isDown || 
+				cursors.up.isDown || cursors.down.isDown) {
+				console.log("cursor down - skip");
+				return;
+			}
+
+			var ballLocation = p.target.responseText;
+			console.log("Server said: " + ballLocation);
+			var xy = ballLocation.split("/");
+			ball.x = parseInt(xy[0]);
+			ball.y = parseInt(xy[1]);
+			setTimeout(readBallLocation, 1000);
+		}
+	}
+	xhr.send();
 }
