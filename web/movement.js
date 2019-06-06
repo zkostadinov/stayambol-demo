@@ -71,6 +71,7 @@ function readBallLocation() {
 			if (cursors.right.isDown || cursors.left.isDown || 
 				cursors.up.isDown || cursors.down.isDown) {
 				console.log("cursor down - skip");
+                setTimeout(readBallLocation, 100);
 				return;
 			}
 
@@ -79,7 +80,7 @@ function readBallLocation() {
 			var xy = ballLocation.split("/");
 			ball.x = parseInt(xy[0]);
 			ball.y = parseInt(xy[1]);
-			setTimeout(readBallLocation, 1000);
+			setTimeout(readBallLocation, 100);
 		}
 	}
 	xhr.send();
